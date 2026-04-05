@@ -1,0 +1,29 @@
+---
+title: Book & Pay
+description: Create a booking from a quote and pay
+api: POST /bookings
+---
+
+## Request
+
+<ParamField body="quoteId" type="string" required>UUID of a valid, non-expired quote.</ParamField>
+<ParamField body="payWith" type="string" required>Currency to pay with.</ParamField>
+<ParamField body="paymentMethod" type="string">Payment method (default: `auto`).</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/bookings \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "quoteId": "quote-uuid", "payWith": "USDC" }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "status": "CONFIRMED",
+  "confirmationCode": "BK-ABC123",
+  "serviceId": "uuid", "totalAmount": "25.00", "currency": "USDC",
+  "railUsed": "internal", "transactionId": "uuid"
+}
+```

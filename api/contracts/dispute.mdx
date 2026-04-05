@@ -1,0 +1,28 @@
+---
+title: Dispute Contract
+description: Open a dispute on an active contract
+api: POST /contracts/{id}/dispute
+---
+
+## Request
+
+<ParamField body="reason" type="string" required>Reason for the dispute (min 5 characters).</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/contracts/contract-uuid/dispute \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "reason": "Dataset was incomplete and unusable" }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid",
+  "status": "DISPUTED",
+  "disputeReason": "Dataset was incomplete and unusable"
+}
+```
+
+Escrow remains locked during dispute resolution.

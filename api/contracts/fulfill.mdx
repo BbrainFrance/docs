@@ -1,0 +1,30 @@
+---
+title: Fulfill Condition
+description: Mark a contract condition as fulfilled
+api: POST /contracts/{id}/fulfill
+---
+
+## Request
+
+<ParamField body="conditionId" type="string" required>The ID of the condition to mark as fulfilled.</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/contracts/contract-uuid/fulfill \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "conditionId": "delivery" }'
+```
+
+## Response
+
+Returns the updated contract. When all conditions are fulfilled, the contract status changes to `FULFILLED` and escrow is released to the counterparty.
+
+```json
+{
+  "id": "uuid", "status": "ACTIVE",
+  "conditions": [
+    { "id": "delivery", "fulfilled": true, "fulfilledAt": "..." },
+    { "id": "quality", "fulfilled": false }
+  ]
+}
+```

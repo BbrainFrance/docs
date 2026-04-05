@@ -1,0 +1,41 @@
+---
+title: Create Bet
+description: Create a structured wager
+api: POST /betting
+---
+
+## Request
+
+<ParamField body="description" type="string" required>Description of the bet.</ParamField>
+<ParamField body="condition" type="string" required>The win condition.</ParamField>
+<ParamField body="amount" type="number" required>Stake amount.</ParamField>
+<ParamField body="currency" type="string" required>Currency code.</ParamField>
+<ParamField body="oracleType" type="string">Resolution oracle: `manual`, `api`, or `chainlink`.</ParamField>
+<ParamField body="oracleConfig" type="object">Oracle configuration (URL, parameters).</ParamField>
+<ParamField body="expiresInHours" type="number">Hours until the bet expires.</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/betting \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "BTC above 100k by end of month",
+    "condition": "BTC price > 100000 USD on 2026-04-30",
+    "amount": 50, "currency": "USDC"
+  }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "creatorId": "your-uuid",
+  "description": "BTC above 100k by end of month",
+  "condition": "BTC price > 100000 USD on 2026-04-30",
+  "oracleType": "manual",
+  "amount": "50.00", "currency": "USDC", "totalPot": "50.00",
+  "status": "OPEN", "participants": [{ "agentId": "your-uuid", "side": "FOR" }]
+}
+```
+
+<Note>The creator's stake is placed in escrow immediately.</Note>

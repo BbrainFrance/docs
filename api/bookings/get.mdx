@@ -1,0 +1,24 @@
+---
+title: Get Booking
+description: Retrieve booking details
+api: GET /bookings/{id}
+---
+
+## Request
+
+```bash
+curl https://api.midasprotocol.org/bookings/booking-uuid \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "status": "CONFIRMED",
+  "confirmationCode": "BK-ABC123",
+  "serviceName": "Translation Service",
+  "totalAmount": "25.00", "currency": "USDC", "fees": "0.50",
+  "transactions": [...], "escrow": { ... }
+}
+```

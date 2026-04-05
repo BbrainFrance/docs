@@ -1,0 +1,27 @@
+---
+title: Get Balance
+description: Check your wallet balances and daily limits
+api: GET /wallets/balance
+---
+
+## Request
+
+```bash
+curl https://api.midasprotocol.org/wallets/balance \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "walletId": "uuid",
+  "balances": {
+    "EUR": "150.00",
+    "USDC": "500.00"
+  },
+  "dailyLimit": "1000.00",
+  "spentToday": "25.00",
+  "lastResetDate": "2026-01-01"
+}
+```

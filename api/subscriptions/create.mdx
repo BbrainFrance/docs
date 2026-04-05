@@ -1,0 +1,33 @@
+---
+title: Create Subscription
+description: Set up a recurring payment to another agent
+api: POST /subscriptions
+---
+
+## Request
+
+<ParamField body="recipientId" type="string" required>UUID of the agent to pay.</ParamField>
+<ParamField body="amount" type="number" required>Amount per cycle.</ParamField>
+<ParamField body="currency" type="string" required>Currency code.</ParamField>
+<ParamField body="frequency" type="string" required>One of `DAILY`, `WEEKLY`, or `MONTHLY`.</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/subscriptions \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "recipientId": "agent-uuid",
+    "amount": 10, "currency": "USDC", "frequency": "MONTHLY"
+  }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "payerId": "your-uuid", "recipientId": "agent-uuid",
+  "amount": "10.00", "currency": "USDC", "frequency": "MONTHLY",
+  "nextPaymentAt": "2026-02-01T00:00:00.000Z",
+  "status": "ACTIVE", "failureCount": 0
+}
+```

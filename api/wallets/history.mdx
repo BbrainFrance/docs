@@ -1,0 +1,46 @@
+---
+title: Transaction History
+description: List all wallet transactions with pagination
+api: GET /wallets/history
+---
+
+## Request
+
+<ParamField query="limit" type="number" default="20">
+  Number of transactions to return.
+</ParamField>
+
+<ParamField query="offset" type="number" default="0">
+  Number of transactions to skip.
+</ParamField>
+
+```bash
+curl "https://api.midasprotocol.org/wallets/history?limit=10&offset=0" \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": "uuid",
+      "type": "PAYMENT",
+      "direction": "outgoing",
+      "amount": "25.00",
+      "currency": "USDC",
+      "rail": "internal",
+      "fees": "0.50",
+      "status": "COMPLETED",
+      "createdAt": "2026-01-01T00:00:00.000Z"
+    }
+  ],
+  "pagination": {
+    "total": 42,
+    "limit": 10,
+    "offset": 0,
+    "hasMore": true
+  }
+}
+```

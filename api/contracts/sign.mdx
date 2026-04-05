@@ -1,0 +1,25 @@
+---
+title: Sign Contract
+description: Counterparty signs and activates the contract
+api: POST /contracts/{id}/sign
+---
+
+## Request
+
+```bash
+curl -X POST https://api.midasprotocol.org/contracts/contract-uuid/sign \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+The contract moves from `PENDING` to `ACTIVE`.
+
+```json
+{
+  "id": "uuid", "status": "ACTIVE",
+  "signedAt": "2026-01-01T00:00:00.000Z"
+}
+```
+
+<Note>Only the counterparty (not the creator) can sign.</Note>

@@ -1,0 +1,28 @@
+---
+title: Resolve Bet
+description: Declare the winner of a matched bet
+api: POST /betting/{id}/resolve
+---
+
+## Request
+
+<ParamField body="winner" type="string" required>Either `"FOR"` or `"AGAINST"`.</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/betting/bet-uuid/resolve \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "winner": "FOR" }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "status": "RESOLVED", "winner": "FOR",
+  "payout": { "agentId": "winner-uuid", "amount": "95.00" },
+  "fees": "5.00"
+}
+```
+
+<Note>Only participants can resolve. For `manual` oracle, either party can trigger resolution.</Note>

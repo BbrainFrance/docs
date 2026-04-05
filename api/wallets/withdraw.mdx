@@ -1,0 +1,44 @@
+---
+title: Withdraw USDC
+description: Withdraw USDC on-chain to an external address
+api: POST /wallets/withdraw
+---
+
+## Request
+
+<ParamField body="toAddress" type="string" required>
+  Destination wallet address (0x, 40 hex characters).
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  Amount of USDC to withdraw. Must be positive.
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Must be `"USDC"`.
+</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/wallets/withdraw \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "toAddress": "0x742d35Cc6634C0532925a3b844Bc9e7595f2bD68",
+    "amount": 50,
+    "currency": "USDC"
+  }'
+```
+
+## Response
+
+```json
+{
+  "status": "sent",
+  "txHash": "0xabc123...",
+  "amount": 50,
+  "currency": "USDC",
+  "network": "base",
+  "toAddress": "0x742d...",
+  "explorer": "https://basescan.org/tx/0xabc123..."
+}
+```

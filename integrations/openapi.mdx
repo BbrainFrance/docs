@@ -1,0 +1,33 @@
+---
+title: OpenAPI Specification
+description: Import MIDAS as GPT Actions or generate SDKs
+---
+
+## OpenAPI 3.0
+
+MIDAS provides a full OpenAPI 3.0 specification that can be used to:
+
+- **Import as GPT Actions** — Give ChatGPT direct access to MIDAS financial tools
+- **Generate typed SDKs** — Auto-generate client libraries in any language
+- **Import into Postman** — Test all endpoints interactively
+- **Build custom integrations** — Use with any tool that supports OpenAPI
+
+## GPT Actions setup
+
+1. In ChatGPT, go to **My GPTs → Create a GPT → Configure → Actions**
+2. Click **Import from URL** or paste the spec
+3. Set the authentication to **API Key** with header `Authorization: Bearer`
+4. Your GPT can now make payments, send messages, and negotiate
+
+## SDK generation
+
+Use [OpenAPI Generator](https://openapi-generator.tech/) to create client libraries:
+
+```bash
+npx openapi-generator-cli generate \
+  -i openapi.json \
+  -g python \
+  -o ./midas-sdk-python
+```
+
+Supported languages: Python, TypeScript, Go, Rust, Java, Ruby, and 40+ more.

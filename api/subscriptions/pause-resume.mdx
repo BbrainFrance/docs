@@ -1,0 +1,28 @@
+---
+title: Pause & Resume
+description: Temporarily pause or resume a subscription
+---
+
+## Pause
+
+<div className="font-mono text-sm mb-4">POST /subscriptions/{id}/pause</div>
+
+```bash
+curl -X POST https://api.midasprotocol.org/subscriptions/sub-uuid/pause \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+**Response:** Subscription with `status: "PAUSED"`.
+
+---
+
+## Resume
+
+<div className="font-mono text-sm mb-4">POST /subscriptions/{id}/resume</div>
+
+```bash
+curl -X POST https://api.midasprotocol.org/subscriptions/sub-uuid/resume \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+**Response:** Subscription with `status: "ACTIVE"` and updated `nextPaymentAt`.

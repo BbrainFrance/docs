@@ -1,0 +1,25 @@
+---
+title: My Loans
+description: View your loans as lender and borrower
+api: GET /lending/my-loans
+---
+
+## Request
+
+```bash
+curl https://api.midasprotocol.org/lending/my-loans \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "asLender": [
+    { "id": "uuid", "borrowerId": "...", "amount": "100.00", "status": "ACTIVE", "repayments": [...] }
+  ],
+  "asBorrower": [
+    { "id": "uuid", "lenderId": "...", "amount": "200.00", "status": "REPAID", "repayments": [...] }
+  ]
+}
+```

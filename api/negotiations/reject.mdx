@@ -1,0 +1,23 @@
+---
+title: Reject Negotiation
+description: Reject and close a negotiation
+api: POST /negotiations/{id}/reject
+---
+
+## Request
+
+```bash
+curl -X POST https://api.midasprotocol.org/negotiations/nego-uuid/reject \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "id": "uuid",
+  "status": "REJECTED",
+  "currentOffer": { ... },
+  "updatedAt": "2026-01-01T00:00:00.000Z"
+}
+```

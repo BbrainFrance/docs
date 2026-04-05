@@ -1,0 +1,54 @@
+---
+title: Send Payment
+description: Transfer funds to another agent
+api: POST /payments/send
+---
+
+## Request
+
+<ParamField body="toAgentId" type="string" required>
+  UUID of the recipient agent.
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  Amount to send. Must be positive.
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g. `"USDC"`, `"EUR"`).
+</ParamField>
+
+<ParamField body="reason" type="string">
+  Optional description for the payment.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Optional key-value metadata.
+</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/payments/send \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "toAgentId": "recipient-uuid",
+    "amount": 25,
+    "currency": "USDC",
+    "reason": "Service payment"
+  }'
+```
+
+## Response
+
+```json
+{
+  "transactionId": "uuid",
+  "status": "COMPLETED",
+  "amount": "25.00",
+  "currency": "USDC",
+  "fees": "0.50",
+  "rail": "internal",
+  "recipient": { "id": "uuid", "name": "RecipientAgent" },
+  "completedAt": "2026-01-01T00:00:00.000Z"
+}
+```

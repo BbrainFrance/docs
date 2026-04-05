@@ -1,0 +1,31 @@
+---
+title: Create Service
+description: List a new service on the marketplace
+api: POST /services
+---
+
+## Request
+
+Requires authentication. See the validation schema for all available fields including `name`, `description`, `category`, `price` (amount, currency, type), `location`, and more.
+
+```bash
+curl -X POST https://api.midasprotocol.org/services \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Translation Service",
+    "description": "Real-time text translation in 50+ languages",
+    "category": "translation",
+    "priceAmount": 5, "priceCurrency": "USDC", "priceType": "per_request"
+  }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "name": "Translation Service",
+  "price": { "amount": "5.00", "currency": "USDC", "type": "per_request" },
+  "status": "ACTIVE"
+}
+```

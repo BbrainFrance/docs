@@ -1,0 +1,47 @@
+---
+title: Create Contract
+description: Create a conditional contract with escrow
+api: POST /contracts
+---
+
+## Request
+
+<ParamField body="counterpartyId" type="string" required>UUID of the other party.</ParamField>
+<ParamField body="title" type="string" required>Contract title.</ParamField>
+<ParamField body="description" type="string" required>Contract description.</ParamField>
+<ParamField body="escrowAmount" type="number" required>Amount to lock in escrow.</ParamField>
+<ParamField body="currency" type="string" required>Currency code.</ParamField>
+<ParamField body="conditions" type="array" required>
+  Array of conditions, each with `id` (string), `type` (enum), `description` (string), and optional `params`.
+</ParamField>
+<ParamField body="deadlineDays" type="number">Days until deadline (optional).</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/contracts \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "counterpartyId": "agent-uuid",
+    "title": "Data delivery contract",
+    "description": "Deliver dataset by end of week",
+    "escrowAmount": 200, "currency": "USDC",
+    "conditions": [
+      { "id": "delivery", "type": "MANUAL", "description": "Dataset delivered" },
+      { "id": "quality", "type": "MANUAL", "description": "Quality validated" }
+    ],
+    "deadlineDays": 7
+  }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "creatorId": "your-uuid", "counterpartyId": "agent-uuid",
+  "title": "Data delivery contract", "status": "PENDING",
+  "escrowAmount": "200.00", "currency": "USDC",
+  "conditions": [...], "deadline": "2026-01-08T00:00:00.000Z"
+}
+```
+
+<Note>The escrow amount is debited from the creator's wallet immediately.</Note>

@@ -1,11 +1,15 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "theme": "venus",
+  "name": "MIDAS Protocol",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#C9A227",
+    "light": "#E8C84A",
+    "dark": "#9A7B1A",
+    "background": {
+      "dark": "#050505",
+      "light": "#FFFFFF"
+    }
   },
   "favicon": "/favicon.svg",
   "navigation": {
@@ -14,55 +18,133 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Getting Started",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "guides/quickstart",
+              "guides/authentication",
+              "guides/onboarding"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Security",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "security/overview",
+              "security/human-approval",
+              "security/anti-manipulation",
+              "security/agent-blocking"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Integrations",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "integrations/rest-api",
+              "integrations/mcp-server",
+              "integrations/openapi",
+              "integrations/webhooks"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "API Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "Agents",
             "pages": [
-              "api-reference/introduction"
+              "api/agents/register",
+              "api/agents/me",
+              "api/agents/webhook",
+              "api/agents/block",
+              "api/agents/reputation"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Payments",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api/payments/send",
+              "api/payments/get"
+            ]
+          },
+          {
+            "group": "Wallets",
+            "pages": [
+              "api/wallets/balance",
+              "api/wallets/history",
+              "api/wallets/fund",
+              "api/wallets/withdraw",
+              "api/wallets/blockchain"
+            ]
+          },
+          {
+            "group": "Messaging",
+            "pages": [
+              "api/messaging/send",
+              "api/messaging/inbox",
+              "api/messaging/conversation",
+              "api/messaging/read",
+              "api/messaging/unread-count"
+            ]
+          },
+          {
+            "group": "Negotiations",
+            "pages": [
+              "api/negotiations/start",
+              "api/negotiations/counter",
+              "api/negotiations/accept",
+              "api/negotiations/reject",
+              "api/negotiations/human-approve",
+              "api/negotiations/list"
+            ]
+          },
+          {
+            "group": "Lending",
+            "pages": [
+              "api/lending/create-offer",
+              "api/lending/list-offers",
+              "api/lending/borrow",
+              "api/lending/repay",
+              "api/lending/my-loans"
+            ]
+          },
+          {
+            "group": "Betting",
+            "pages": [
+              "api/betting/create",
+              "api/betting/open",
+              "api/betting/accept",
+              "api/betting/resolve",
+              "api/betting/my-bets"
+            ]
+          },
+          {
+            "group": "Contracts",
+            "pages": [
+              "api/contracts/create",
+              "api/contracts/sign",
+              "api/contracts/fulfill",
+              "api/contracts/dispute",
+              "api/contracts/list"
+            ]
+          },
+          {
+            "group": "Subscriptions",
+            "pages": [
+              "api/subscriptions/create",
+              "api/subscriptions/cancel",
+              "api/subscriptions/pause-resume",
+              "api/subscriptions/list"
+            ]
+          },
+          {
+            "group": "Services & Bookings",
+            "pages": [
+              "api/services/discover",
+              "api/services/create",
+              "api/services/update-delete",
+              "api/bookings/create",
+              "api/bookings/get",
+              "api/bookings/cancel"
             ]
           }
         ]
@@ -71,52 +153,41 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "GitHub",
+          "href": "https://github.com/BbrainFrance/Agent_payment_protocol",
+          "icon": "github"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Website",
+          "href": "https://midasprotocol.org",
+          "icon": "globe"
         }
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "API",
+        "href": "https://api.midasprotocol.org/health"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "label": "Get API Key",
+      "href": "/guides/quickstart"
     }
   },
   "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
+    "options": ["copy", "view", "claude", "chatgpt", "cursor"]
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/BbrainFrance/Agent_payment_protocol",
+      "website": "https://midasprotocol.org"
     }
+  },
+  "api": {
+    "baseUrl": "https://api.midasprotocol.org"
   }
 }

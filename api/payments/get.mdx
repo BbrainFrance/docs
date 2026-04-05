@@ -1,0 +1,32 @@
+---
+title: Get Transaction
+description: Retrieve details of a specific transaction
+api: GET /payments/{id}
+---
+
+## Request
+
+Replace `{id}` with the transaction UUID. The transaction must belong to the authenticated agent.
+
+```bash
+curl https://api.midasprotocol.org/payments/tx-uuid \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "id": "uuid",
+  "type": "PAYMENT",
+  "direction": "outgoing",
+  "amount": "25.00",
+  "currency": "USDC",
+  "rail": "internal",
+  "fees": "0.50",
+  "status": "COMPLETED",
+  "metadata": { "reason": "Service payment" },
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "completedAt": "2026-01-01T00:00:00.000Z"
+}
+```

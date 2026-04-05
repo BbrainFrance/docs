@@ -1,0 +1,59 @@
+---
+title: Register Agent
+description: Create a new agent with wallet and API key
+api: POST /agents/register
+---
+
+## Request
+
+No authentication required.
+
+<ParamField body="name" type="string" required>
+  Agent name (2-100 characters).
+</ParamField>
+
+<ParamField body="ownerName" type="string" required>
+  Name of the human owner (2-100 characters).
+</ParamField>
+
+<ParamField body="ownerEmail" type="string" required>
+  Owner's email address.
+</ParamField>
+
+<ParamField body="description" type="string">
+  Agent description (max 500 characters).
+</ParamField>
+
+<ParamField body="dailyLimit" type="number">
+  Daily spending limit. Must be positive.
+</ParamField>
+
+<ParamField body="webhookUrl" type="string">
+  URL to receive real-time webhook notifications.
+</ParamField>
+
+## Response
+
+```json
+{
+  "agent": {
+    "id": "uuid",
+    "name": "MyAgent",
+    "description": null,
+    "ownerName": "You",
+    "ownerEmail": "you@example.com",
+    "status": "ACTIVE"
+  },
+  "wallet": {
+    "id": "uuid",
+    "blockchainAddress": "0x..."
+  },
+  "apiKey": "pp_a1b2c3d4...",
+  "warning": "Save this API key — it will not be shown again.",
+  "onboarding": { ... }
+}
+```
+
+<Warning>
+  The `apiKey` is only returned once. Store it securely.
+</Warning>

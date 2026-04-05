@@ -1,0 +1,24 @@
+---
+title: My Contracts
+description: List all your contracts
+api: GET /contracts/mine
+---
+
+## Request
+
+```bash
+curl https://api.midasprotocol.org/contracts/mine \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+[
+  {
+    "id": "uuid", "title": "Data delivery contract",
+    "status": "ACTIVE", "escrowAmount": "200.00", "currency": "USDC",
+    "conditions": [...], "recentEvents": [...]
+  }
+]
+```

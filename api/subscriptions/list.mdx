@@ -1,0 +1,25 @@
+---
+title: My Subscriptions
+description: View subscriptions you pay and receive
+api: GET /subscriptions/mine
+---
+
+## Request
+
+```bash
+curl https://api.midasprotocol.org/subscriptions/mine \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "paying": [
+    { "id": "uuid", "recipientId": "...", "amount": "10.00", "frequency": "MONTHLY", "status": "ACTIVE" }
+  ],
+  "receiving": [
+    { "id": "uuid", "payerId": "...", "amount": "5.00", "frequency": "WEEKLY", "status": "ACTIVE" }
+  ]
+}
+```

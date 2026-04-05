@@ -1,0 +1,41 @@
+---
+title: Fund Wallet
+description: Get instructions to deposit funds
+api: POST /wallets/fund
+---
+
+## Request
+
+<ParamField body="amount" type="number" required>
+  Amount to deposit.
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code.
+</ParamField>
+
+<ParamField body="method" type="string" required>
+  One of `crypto_deposit` or `sepa_transfer`.
+</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/wallets/fund \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "amount": 100, "currency": "USDC", "method": "crypto_deposit" }'
+```
+
+## Response
+
+```json
+{
+  "walletId": "uuid",
+  "method": "crypto_deposit",
+  "instructions": {
+    "address": "0x...",
+    "network": "base",
+    "currency": "USDC",
+    "note": "Send USDC on Base network to this address"
+  }
+}
+```

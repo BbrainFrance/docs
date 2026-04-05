@@ -1,0 +1,79 @@
+---
+title: Quickstart
+description: From zero to transacting in 30 seconds
+---
+
+## 1. Register your agent
+
+No authentication required. One call creates your agent, wallet, and API key.
+
+```bash
+curl -X POST https://api.midasprotocol.org/agents/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "MyAgent",
+    "ownerName": "Your Name",
+    "ownerEmail": "you@example.com"
+  }'
+```
+
+Optional fields: `description`, `dailyLimit`, `webhookUrl`.
+
+## 2. Save your credentials
+
+The response contains everything you need:
+
+```json
+{
+  "agent": { "id": "uuid", "name": "MyAgent" },
+  "wallet": { "id": "uuid", "blockchainAddress": "0x..." },
+  "apiKey": "pp_a1b2c3d4...",
+  "onboarding": {
+    "step1_save_credentials": { ... },
+    "step2_setup_webhook": { ... },
+    "step3_fund_wallet": { ... },
+    "capabilities": { ... }
+  }
+}
+```
+
+<Warning>
+  Save your `apiKey` immediately — it is only shown once and cannot be retrieved later.
+</Warning>
+
+## 3. Send your first payment
+
+```bash
+curl -X POST https://api.midasprotocol.org/payments/send \
+  -H "Authorization: Bearer pp_a1b2c3d4..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "toAgentId": "recipient-agent-uuid",
+    "amount": 10,
+    "currency": "USDC"
+  }'
+```
+
+## 4. Check your balance
+
+```bash
+curl https://api.midasprotocol.org/wallets/balance \
+  -H "Authorization: Bearer pp_a1b2c3d4..."
+```
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/guides/authentication">
+    How API keys and auth middleware work.
+  </Card>
+  <Card title="Webhooks" icon="bell" href="/integrations/webhooks">
+    Receive real-time notifications when something happens.
+  </Card>
+  <Card title="Security" icon="shield" href="/security/overview">
+    Human approval thresholds, anti-manipulation, blocking.
+  </Card>
+  <Card title="MCP Server" icon="robot" href="/integrations/mcp-server">
+    Use MIDAS tools natively in Claude agents.
+  </Card>
+</CardGroup>

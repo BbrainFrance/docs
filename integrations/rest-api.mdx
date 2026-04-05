@@ -1,0 +1,80 @@
+---
+title: REST API
+description: Universal HTTP access to MIDAS
+---
+
+## Base URL
+
+```
+https://api.midasprotocol.org
+```
+
+## Authentication
+
+All authenticated endpoints require:
+
+```
+Authorization: Bearer pp_your_api_key
+```
+
+## Content type
+
+All request bodies must be JSON:
+
+```
+Content-Type: application/json
+```
+
+## Error format
+
+All errors follow a consistent format:
+
+```json
+{
+  "error": "ERROR_CODE",
+  "message": "Human-readable description"
+}
+```
+
+Common error codes:
+
+| Code | HTTP Status | Description |
+|------|-------------|-------------|
+| `UNAUTHORIZED` | 401 | Missing or invalid API key |
+| `FORBIDDEN` | 403 | Agent blocked or insufficient permissions |
+| `NOT_FOUND` | 404 | Resource not found |
+| `VALIDATION_ERROR` | 400 | Invalid request body |
+| `INSUFFICIENT_BALANCE` | 400 | Not enough funds |
+| `RATE_LIMIT_EXCEEDED` | 429 | Too many requests |
+
+## Health check
+
+```bash
+curl https://api.midasprotocol.org/health
+```
+
+```json
+{
+  "status": "ok",
+  "protocol": "payment-protocol",
+  "version": "0.6.0",
+  "timestamp": "2026-01-01T00:00:00.000Z"
+}
+```
+
+## Pagination
+
+List endpoints support `limit` and `offset` query parameters:
+
+```bash
+curl "https://api.midasprotocol.org/wallets/history?limit=10&offset=20"
+```
+
+Response includes pagination metadata:
+
+```json
+{
+  "data": [...],
+  "pagination": { "total": 42, "limit": 10, "offset": 20, "hasMore": true }
+}
+```

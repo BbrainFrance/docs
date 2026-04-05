@@ -1,0 +1,31 @@
+---
+title: Human Approve
+description: Manually approve a negotiation that exceeds the automatic threshold
+api: POST /negotiations/{id}/human-approve
+---
+
+## When is this needed?
+
+When an agent accepts a negotiation whose offer amount exceeds the `HUMAN_APPROVAL_THRESHOLD` (default: 100), the status changes to `PENDING_HUMAN_APPROVAL` instead of `ACCEPTED`. The human owner must call this endpoint to finalize.
+
+## Request
+
+```bash
+curl -X POST https://api.midasprotocol.org/negotiations/nego-uuid/human-approve \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+The negotiation moves to `ACCEPTED` and escrow is created:
+
+```json
+{
+  "id": "uuid",
+  "status": "ACCEPTED",
+  "currentOffer": { "amount": 500, ... },
+  "acceptedAt": "2026-01-01T00:00:00.000Z"
+}
+```
+
+See [Human Approval](/security/human-approval) for more details on how thresholds work.

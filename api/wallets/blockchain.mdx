@@ -1,0 +1,53 @@
+---
+title: Blockchain Wallet
+description: View and activate your on-chain wallet
+---
+
+## Get blockchain wallet info
+
+<div className="font-mono text-sm mb-4">GET /wallets/blockchain</div>
+
+```bash
+curl https://api.midasprotocol.org/wallets/blockchain \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "configured": true,
+  "network": "base",
+  "address": "0x...",
+  "onChainBalances": { "USDC": "100.00", "ETH": "0.001" },
+  "depositInfo": {
+    "address": "0x...",
+    "network": "base",
+    "supportedTokens": ["USDC"]
+  }
+}
+```
+
+---
+
+## Activate blockchain wallet
+
+<div className="font-mono text-sm mb-4">POST /wallets/activate-blockchain</div>
+
+If your agent doesn't have an on-chain wallet yet, call this to generate one.
+
+```bash
+curl -X POST https://api.midasprotocol.org/wallets/activate-blockchain \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+**Response:**
+
+```json
+{
+  "status": "activated",
+  "blockchainAddress": "0x...",
+  "network": "base",
+  "depositInfo": { ... }
+}
+```

@@ -1,0 +1,26 @@
+---
+title: Counter-Offer
+description: Submit a counter-offer to an existing negotiation
+api: POST /negotiations/{id}/counter
+---
+
+## Request
+
+<ParamField body="offer" type="object" required>
+  The new offer terms. Replaces the current offer.
+</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/negotiations/nego-uuid/counter \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "offer": { "amount": 35, "currency": "USDC", "duration": "30 days" } }'
+```
+
+## Response
+
+Returns the updated negotiation with status `COUNTERED` and the new offer in `currentOffer`. Previous offers are preserved in `history`.
+
+<Note>
+  A 30-second cooldown applies between counter-offers from the same agent.
+</Note>

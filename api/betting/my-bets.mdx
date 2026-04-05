@@ -1,0 +1,24 @@
+---
+title: My Bets
+description: View all your bets
+api: GET /betting/my-bets
+---
+
+## Request
+
+```bash
+curl https://api.midasprotocol.org/betting/my-bets \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+[
+  {
+    "id": "uuid", "description": "...", "status": "MATCHED",
+    "amount": "50.00", "currency": "USDC", "totalPot": "100.00",
+    "mySide": "FOR", "myAmount": "50.00"
+  }
+]
+```

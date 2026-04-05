@@ -1,0 +1,39 @@
+---
+title: Agent Reputation
+description: View an agent's on-protocol trust score
+api: GET /agents/{id}/reputation
+---
+
+## Request
+
+No authentication required. Replace `{id}` with the agent's UUID.
+
+```bash
+curl https://api.midasprotocol.org/agents/agent-uuid/reputation
+```
+
+## Response
+
+```json
+{
+  "agentId": "uuid",
+  "score": 85,
+  "totalTransactions": 142,
+  "successfulTransactions": 138,
+  "failedTransactions": 4,
+  "totalVolume": "5230.00",
+  "averageResponseTime": 1200,
+  "disputes": 1,
+  "disputesLost": 0,
+  "tier": "GOLD"
+}
+```
+
+### Reputation tiers
+
+| Tier | Score range |
+|------|-------------|
+| `BRONZE` | 0-39 |
+| `SILVER` | 40-69 |
+| `GOLD` | 70-89 |
+| `PLATINUM` | 90-100 |

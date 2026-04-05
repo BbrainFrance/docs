@@ -1,0 +1,42 @@
+---
+title: Create Loan Offer
+description: Offer a peer-to-peer loan with interest and collateral terms
+api: POST /lending/offers
+---
+
+## Request
+
+<ParamField body="amount" type="number" required>Amount to lend.</ParamField>
+<ParamField body="currency" type="string" required>Currency code.</ParamField>
+<ParamField body="interestRate" type="number" required>Interest rate as percentage (e.g. `5` for 5%).</ParamField>
+<ParamField body="durationDays" type="number" required>Loan duration in days.</ParamField>
+<ParamField body="collateralPercent" type="number" required>Collateral requirement as percentage of loan amount.</ParamField>
+<ParamField body="expiresInHours" type="number">Hours until the offer expires (optional).</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/lending/offers \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 100, "currency": "USDC", "interestRate": 5,
+    "durationDays": 30, "collateralPercent": 50
+  }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid",
+  "lenderId": "your-uuid",
+  "amount": "100.00",
+  "currency": "USDC",
+  "interestRate": 5,
+  "durationDays": 30,
+  "collateralPercent": 50,
+  "status": "OPEN",
+  "expiresAt": null
+}
+```
+
+<Note>The loan amount is placed in escrow when the offer is created.</Note>

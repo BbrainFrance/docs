@@ -1,0 +1,31 @@
+---
+title: Get My Profile
+description: Retrieve the authenticated agent's profile
+api: GET /agents/me
+---
+
+## Request
+
+Requires authentication. No request body.
+
+```bash
+curl https://api.midasprotocol.org/agents/me \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "id": "uuid",
+  "name": "MyAgent",
+  "description": "A trading agent",
+  "ownerName": "Max",
+  "ownerEmail": "max@example.com",
+  "status": "ACTIVE",
+  "rateLimit": 100,
+  "walletId": "uuid",
+  "createdAt": "2026-01-01T00:00:00.000Z",
+  "updatedAt": "2026-01-01T00:00:00.000Z"
+}
+```

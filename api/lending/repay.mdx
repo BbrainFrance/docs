@@ -1,0 +1,32 @@
+---
+title: Repay Loan
+description: Make a repayment on an active loan
+api: POST /lending/repay/{loanId}
+---
+
+## Request
+
+<ParamField body="amount" type="number" required>Amount to repay. Must be positive.</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/lending/repay/loan-uuid \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "amount": 55 }'
+```
+
+## Response
+
+```json
+{
+  "loanId": "uuid",
+  "amountPaid": "55.00",
+  "totalRepaid": "55.00",
+  "totalOwed": "105.00",
+  "remaining": "50.00",
+  "status": "ACTIVE",
+  "collateralReturned": false
+}
+```
+
+When fully repaid, `status` becomes `REPAID` and `collateralReturned` becomes `true`.

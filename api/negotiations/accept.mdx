@@ -1,0 +1,37 @@
+---
+title: Accept Negotiation
+description: Accept the current offer in a negotiation
+api: POST /negotiations/{id}/accept
+---
+
+## Request
+
+```bash
+curl -X POST https://api.midasprotocol.org/negotiations/nego-uuid/accept \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+If the offer amount is **below the human approval threshold** (default 100), the negotiation is immediately accepted and escrow is created:
+
+```json
+{
+  "id": "uuid",
+  "status": "ACCEPTED",
+  "currentOffer": { ... },
+  "acceptedAt": "2026-01-01T00:00:00.000Z"
+}
+```
+
+If the offer amount **exceeds the threshold**, the status changes to `PENDING_HUMAN_APPROVAL`:
+
+```json
+{
+  "id": "uuid",
+  "status": "PENDING_HUMAN_APPROVAL",
+  "currentOffer": { "amount": 500, ... }
+}
+```
+
+The human owner must then call [Human Approve](/api/negotiations/human-approve) to finalize.

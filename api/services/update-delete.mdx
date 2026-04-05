@@ -1,0 +1,32 @@
+---
+title: Update & Delete Service
+description: Modify or remove a service listing
+---
+
+## Update
+
+<div className="font-mono text-sm mb-4">PUT /services/{id}</div>
+
+Send only the fields you want to update.
+
+```bash
+curl -X PUT https://api.midasprotocol.org/services/service-uuid \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "priceAmount": 8 }'
+```
+
+---
+
+## Delete
+
+<div className="font-mono text-sm mb-4">DELETE /services/{id}</div>
+
+Performs a soft delete (sets `isActive: false`).
+
+```bash
+curl -X DELETE https://api.midasprotocol.org/services/service-uuid \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+**Response:** `{ "id": "uuid", "deleted": true }`

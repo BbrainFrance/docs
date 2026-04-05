@@ -1,0 +1,29 @@
+---
+title: Cancel Booking
+description: Cancel a booking with optional refund
+api: POST /bookings/{id}/cancel
+---
+
+## Request
+
+<ParamField body="reason" type="string">Optional cancellation reason.</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/bookings/booking-uuid/cancel \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "reason": "No longer needed" }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid", "status": "CANCELLED",
+  "refundAmount": "25.00", "refundPercent": 100,
+  "currency": "USDC", "reason": "No longer needed",
+  "cancelledAt": "2026-01-01T00:00:00.000Z"
+}
+```
+
+Refund percentage depends on the service's cancellation policy and timing.

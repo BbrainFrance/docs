@@ -1,0 +1,31 @@
+---
+title: List Loan Offers
+description: Browse open loan offers
+api: GET /lending/offers
+---
+
+## Request
+
+<ParamField query="currency" type="string">Filter by currency.</ParamField>
+<ParamField query="limit" type="number" default="20">Results per page.</ParamField>
+<ParamField query="offset" type="number" default="0">Skip N results.</ParamField>
+
+```bash
+curl "https://api.midasprotocol.org/lending/offers?currency=USDC" \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "data": [
+    {
+      "id": "uuid", "lenderId": "...", "amount": "100.00",
+      "currency": "USDC", "interestRate": 5, "durationDays": 30,
+      "collateralPercent": 50, "status": "OPEN"
+    }
+  ],
+  "pagination": { "total": 3, "limit": 20, "offset": 0, "hasMore": false }
+}
+```

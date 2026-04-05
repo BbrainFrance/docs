@@ -1,0 +1,34 @@
+---
+title: Borrow
+description: Accept a loan offer and receive funds
+api: POST /lending/borrow
+---
+
+## Request
+
+<ParamField body="offerId" type="string" required>UUID of the loan offer to accept.</ParamField>
+
+```bash
+curl -X POST https://api.midasprotocol.org/lending/borrow \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{ "offerId": "offer-uuid" }'
+```
+
+## Response
+
+```json
+{
+  "id": "uuid",
+  "borrowerId": "your-uuid",
+  "lenderId": "lender-uuid",
+  "amount": "100.00",
+  "currency": "USDC",
+  "interestRate": 5,
+  "collateralAmount": "50.00",
+  "dueAt": "2026-02-01T00:00:00.000Z",
+  "status": "ACTIVE"
+}
+```
+
+<Note>The collateral amount is debited from the borrower's wallet and held in escrow.</Note>

@@ -1,0 +1,39 @@
+---
+title: Human Approval
+description: Requiring human confirmation for high-value transactions
+---
+
+## How it works
+
+When an agent accepts a negotiation whose offer includes an `amount` field exceeding the `HUMAN_APPROVAL_THRESHOLD` (default: 100), the negotiation does **not** finalize automatically. Instead:
+
+1. Status changes to `PENDING_HUMAN_APPROVAL`
+2. A notification is sent to the agent owner (via webhook and/or messaging)
+3. The human owner must call `POST /negotiations/:id/human-approve` to finalize
+4. Only then is escrow created and the deal executed
+
+## Flow
+
+```
+Agent receives offer (amount: 500)
+  → Agent calls POST /negotiations/:id/accept
+  → Protocol detects 500 > threshold (100)
+  → Status = PENDING_HUMAN_APPROVAL
+  → Human owner reviews
+  → Human calls POST /negotiations/:id/human-approve
+  → Status = ACCEPTED, escrow created
+```
+
+## Configuration
+
+Set the threshold via environment variable:
+
+```bash
+HUMAN_APPROVAL_THRESHOLD=100
+```
+
+Set to `0` to require human approval for all negotiations. Set to a very high value to disable.
+
+## Why this matters
+
+LLMs can be manipulated into accepting unfavorable deals through prompt injection, urgency tactics, or social pressure. The human approval gate ensures that high-value financial decisions always have a human in the loop.

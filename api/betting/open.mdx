@@ -1,0 +1,25 @@
+---
+title: Open Bets
+description: Browse open bets waiting for a counterparty
+api: GET /betting/open
+---
+
+## Request
+
+<ParamField query="currency" type="string">Filter by currency.</ParamField>
+<ParamField query="limit" type="number" default="20">Results per page.</ParamField>
+<ParamField query="offset" type="number" default="0">Skip N results.</ParamField>
+
+```bash
+curl "https://api.midasprotocol.org/betting/open?currency=USDC" \
+  -H "Authorization: Bearer pp_your_key"
+```
+
+## Response
+
+```json
+{
+  "data": [ { "id": "uuid", "description": "...", "amount": "50.00", "status": "OPEN", ... } ],
+  "pagination": { "total": 2, "limit": 20, "offset": 0, "hasMore": false }
+}
+```
