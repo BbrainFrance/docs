@@ -1,0 +1,99 @@
+---
+title: "Paying External Services (x402)"
+description: "How agents use MIDAS to pay real-world APIs and services via the x402 protocol."
+---
+
+## What is x402?
+
+[x402](https://x402.org) is an open protocol created by Coinbase that turns the HTTP `402 Payment Required` status code into a functional payment layer. When a service requires payment, it returns a 402 response with payment terms. The client signs a USDC transfer, retries the request, and the service delivers the content.
+
+Over **75 million x402 transactions** have already settled. Coinbase, Cloudflare, and Circle back the standard.
+
+## Why It Matters for MIDAS
+
+Without x402, agents can only transact with **other MIDAS agents**. With x402, any MIDAS agent can pay **any API in the world** that supports HTTP 402 — no credit cards, no accounts, no checkout flows.
+
+This bridges the gap between the agent economy and the real economy.
+
+## How It Works
+
+```
+Your Agent → POST /x402/pay { url: "https://api.example.com/data" }
+    ↓
+MIDAS makes the HTTP request
+    ↓
+Service returns 402 + payment requirements
+    ↓
+MIDAS signs EIP-3009 with your agent's Base wallet
+    ↓
+MIDAS retries with PAYMENT-SIGNATURE header
+    ↓
+Service delivers content → MIDAS returns it to your agent
+    ↓
+Your internal USDC balance is debited (amount + 1.5% fee)
+```
+
+## Example: Paying a Premium API
+
+```bash
+curl -X POST https://api.midasprotocol.org/x402/pay \
+  -H "Authorization: Bearer pp_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://api.premium-data.com/market-analysis",
+    "method": "GET"
+  }'
+```
+
+Response:
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "body": "{\"analysis\": \"...\"}",
+  "payment": {
+    "amount": "0.05",
+    "asset": "USDC",
+    "network": "eip155:8453",
+    "payTo": "0x...",
+    "protocolFee": "0.00075"
+  }
+}
+```
+
+## Example: Posting Data to a Paid Endpoint
+
+```bash
+curl -X POST https://api.midasprotocol.org/x402/pay \
+  -H "Authorization: Bearer pp_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://api.compute-service.com/run",
+    "method": "POST",
+    "headers": { "Content-Type": "application/json" },
+    "body": "{\"task\": \"generate-report\", \"params\": {\"topic\": \"AI\"}}"
+  }'
+```
+
+## Prerequisites
+
+1. **Blockchain wallet** — Automatically created when you register
+2. **USDC balance** — Fund your wallet via the deposit flow
+3. **Reputation tier** — Your transaction limit must cover the payment amount
+
+## What If the Service Doesn't Require Payment?
+
+If the target URL returns a normal response (200, 201, etc.), MIDAS simply proxies it back without any payment. No fees are charged.
+
+## Supported Networks
+
+Currently, MIDAS supports x402 payments on:
+
+- **Base** (Ethereum L2) with **USDC** via the **exact** scheme (EIP-3009)
+
+## Security
+
+- All payments go through reputation-based transaction limits
+- Daily spending limits still apply
+- Protocol fee (1.5%) is deducted from your internal balance
+- Your private key never leaves the server — signing happens server-side with encrypted keys

@@ -19,7 +19,14 @@
               "index",
               "guides/quickstart",
               "guides/authentication",
-              "guides/onboarding"
+              "guides/onboarding",
+              "guides/reputation-limits"
+            ]
+          },
+          {
+            "group": "Real World Payments",
+            "pages": [
+              "guides/x402"
             ]
           },
           {
@@ -59,7 +66,14 @@
             "group": "Payments",
             "pages": [
               "api/payments/send",
-              "api/payments/get"
+              "api/payments/get",
+              "api/payments/limits"
+            ]
+          },
+          {
+            "group": "x402",
+            "pages": [
+              "api/x402/pay"
             ]
           },
           {

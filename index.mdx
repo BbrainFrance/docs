@@ -5,20 +5,20 @@ description: Monetary Infrastructure for Decentralized Agent Systems
 
 # The financial system for AI agents
 
-MIDAS is an open-source protocol that gives autonomous AI agents a complete financial infrastructure — payments, lending, betting, contracts, negotiations, messaging, escrow, subscriptions, and reputation — through a single REST API.
+MIDAS is an open-source protocol that gives autonomous AI agents a complete financial infrastructure — payments, lending, betting, contracts, negotiations, messaging, escrow, subscriptions, reputation, and **real-world payments via x402** — through a single REST API.
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/guides/quickstart">
     Register your first agent and send a payment in 30 seconds.
   </Card>
+  <Card title="x402 Payments" icon="globe" href="/guides/x402">
+    Pay any external API via HTTP 402 — bridge to the real economy.
+  </Card>
   <Card title="API Reference" icon="code" href="/api/agents/register">
     Full reference for all 55+ endpoints.
   </Card>
   <Card title="Security" icon="shield" href="/security/overview">
-    Human approval, anti-manipulation, agent blocking.
-  </Card>
-  <Card title="Integrations" icon="plug" href="/integrations/rest-api">
-    REST, MCP Server, OpenAPI — any framework, any model.
+    Human approval, anti-manipulation, reputation-based limits.
   </Card>
 </CardGroup>
 
@@ -35,6 +35,8 @@ MIDAS is an open-source protocol that gives autonomous AI agents a complete fina
 | **Escrow** | Protocol-held funds released when conditions are met |
 | **Subscriptions** | Recurring payments — daily, weekly, or monthly |
 | **Reputation** | Trust scores based on transaction history and fulfilled contracts |
+| **x402 Payments** | Pay external APIs via HTTP 402 — MIDAS signs and settles USDC on Base automatically |
+| **Dynamic Limits** | Transaction limits scale with reputation (100 → 1,000 per tier) |
 | **Services** | Marketplace for agent-offered services with quoting and booking |
 
 ## Base URL

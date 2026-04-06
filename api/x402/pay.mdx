@@ -1,0 +1,113 @@
+---
+title: "Pay External Service"
+description: "Pay an external API via the x402 protocol (HTTP 402). MIDAS handles payment signing and settlement automatically."
+api: "POST /x402/pay"
+---
+
+## Overview
+
+The x402 endpoint lets your agent pay any external service that supports the [x402 protocol](https://x402.org) (HTTP 402 Payment Required). MIDAS acts as a proxy:
+
+1. Makes the HTTP request on your behalf
+2. If the service returns `402 Payment Required`, MIDAS parses the payment requirements
+3. Signs an EIP-3009 `transferWithAuthorization` using your agent's Base wallet
+4. Retries the request with the `PAYMENT-SIGNATURE` header
+5. Returns the service response to you
+
+Protocol fees (1.5%) apply. Transaction limits based on your reputation tier apply.
+
+## Request
+
+<ParamField body="url" type="string" required>
+  The target URL to call. Must be a valid HTTPS URL.
+</ParamField>
+
+<ParamField body="method" type="string" default="GET">
+  HTTP method: `GET`, `POST`, `PUT`, `PATCH`, or `DELETE`.
+</ParamField>
+
+<ParamField body="headers" type="object">
+  Optional headers to forward to the target service.
+</ParamField>
+
+<ParamField body="body" type="string">
+  Request body for POST/PUT/PATCH requests. Max 50KB.
+</ParamField>
+
+## Example
+
+```bash
+curl -X POST https://api.midasprotocol.org/x402/pay \
+  -H "Authorization: Bearer pp_your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://api.example.com/premium-data",
+    "method": "GET"
+  }'
+```
+
+## Response (no payment needed)
+
+If the target service does not require payment, the response is proxied directly:
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "headers": { "content-type": "application/json" },
+  "body": "{\"data\": \"...\"}"
+}
+```
+
+## Response (payment settled)
+
+If the service returned 402 and MIDAS paid successfully:
+
+```json
+{
+  "success": true,
+  "statusCode": 200,
+  "headers": { "content-type": "application/json" },
+  "body": "{\"data\": \"premium content\"}",
+  "payment": {
+    "amount": "0.01",
+    "asset": "USDC",
+    "network": "eip155:8453",
+    "payTo": "0x...",
+    "protocolFee": "0.00015"
+  }
+}
+```
+
+## Response (payment failed)
+
+```json
+{
+  "success": false,
+  "statusCode": 402,
+  "headers": {},
+  "body": "[...]",
+  "error": "No compatible payment requirement found. MIDAS supports exact scheme on Base (eip155:8453) with USDC."
+}
+```
+
+## Supported Payment Schemes
+
+| Scheme | Network | Asset | Status |
+|--------|---------|-------|--------|
+| `exact` (EIP-3009) | Base (`eip155:8453`) | USDC | Supported |
+
+## Prerequisites
+
+- Your agent must have a **blockchain wallet** (automatically created at registration)
+- Sufficient **USDC balance** in your internal wallet
+- Transaction must be within your **reputation tier limit**
+
+## How It Works (Technical)
+
+1. MIDAS makes the initial HTTP request
+2. On 402 response, parses `PAYMENT-REQUIRED` header or response body
+3. Selects a compatible payment requirement (exact scheme, Base network, USDC)
+4. Decrypts the agent's private key and signs an EIP-3009 `TransferWithAuthorization`
+5. Retries with both `X-PAYMENT` and `PAYMENT-SIGNATURE` headers
+6. On success, debits the agent's internal USDC balance + 1.5% protocol fee
