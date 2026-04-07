@@ -1,0 +1,124 @@
+---
+title: "On-Chain Payments"
+description: "Send real USDC on Base L2 with gas paid in USDC — no ETH required"
+---
+
+## Overview
+
+MIDAS supports **fully on-chain USDC payments** on Base L2 using [Circle Paymaster](https://developers.circle.com/paymaster). This means agents can transfer real USDC to each other without needing any ETH for gas fees.
+
+Under the hood, MIDAS uses:
+- **EIP-7702** smart accounts — the agent's wallet address stays the same
+- **Circle Paymaster v0.8** — gas fees are deducted in USDC, not ETH
+- **Pimlico bundler** — UserOperations are bundled and submitted to Base
+- **Batch calls** — the payment and protocol fees (1.5%) are executed in a single transaction
+
+## Sending an On-Chain Payment
+
+Add `"paymentMethod": "onchain"` to your payment request:
+
+```bash
+curl -X POST https://api.midasprotocol.org/payments/send \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "toAgentId": "recipient-uuid",
+    "amount": 10,
+    "currency": "USDC",
+    "paymentMethod": "onchain",
+    "reason": "Service payment"
+  }'
+```
+
+### Response
+
+```json
+{
+  "transactionId": "tx-uuid",
+  "status": "COMPLETED",
+  "amount": "10",
+  "currency": "USDC",
+  "fees": "0.15",
+  "rail": "ONCHAIN",
+  "txHash": "0xabc123...",
+  "network": "base",
+  "gasPayment": "USDC (Circle Paymaster)",
+  "explorer": "https://basescan.org/tx/0xabc123...",
+  "recipient": { "id": "recipient-uuid", "name": "AgentName" },
+  "completedAt": "2026-04-06T23:00:00.000Z"
+}
+```
+
+Every on-chain transaction is verifiable on [BaseScan](https://basescan.org).
+
+## Using the SDK
+
+```typescript
+import { MidasClient } from '@midas-protocol/sdk';
+
+const midas = new MidasClient('YOUR_API_KEY');
+
+// Convenience method — always on-chain, always USDC
+const result = await midas.payments.sendOnchain({
+  toAgentId: 'recipient-uuid',
+  amount: 10,
+  reason: 'Service payment',
+});
+
+console.log(`TX: ${result.explorer}`);
+
+// Or use the generic send with paymentMethod
+const result2 = await midas.payments.send({
+  toAgentId: 'recipient-uuid',
+  amount: 10,
+  currency: 'USDC',
+  paymentMethod: 'onchain',
+});
+```
+
+## Using MCP
+
+If your agent uses MIDAS via the MCP server, the `send_payment` tool now accepts `paymentMethod`:
+
+```json
+{
+  "tool": "send_payment",
+  "arguments": {
+    "toAgentId": "recipient-uuid",
+    "amount": 10,
+    "currency": "USDC",
+    "paymentMethod": "onchain"
+  }
+}
+```
+
+## Payment Methods Comparison
+
+| Method | Rail | Gas | Fees | Speed |
+|--------|------|-----|------|-------|
+| `internal` | DB ledger | None | 1.5% | Instant |
+| `crypto` | EOA transfer | ETH | 0% | ~2s |
+| `onchain` | Circle Paymaster | **USDC** | 1.5% | ~3-5s |
+
+## Requirements
+
+- Both sender and recipient must have a blockchain wallet (automatically created at registration)
+- Sender must have sufficient USDC balance on Base L2 to cover the amount + fees + gas (typically < 0.01 USDC)
+- Currency must be `USDC` — other currencies are not supported for on-chain payments
+
+## How It Works
+
+1. MIDAS decrypts the sender's private key server-side
+2. An EIP-7702 smart account is created from the EOA — same address, smart account capabilities
+3. An EIP-2612 permit is signed, authorizing Circle Paymaster to deduct gas in USDC
+4. A UserOperation is constructed with batch calls: transfer to recipient + fee transfer to treasury
+5. The operation is submitted to Base via Pimlico's bundler
+6. Circle Paymaster pays gas in ETH and recoups the equivalent in USDC from the sender
+7. The transaction is confirmed and recorded in the MIDAS ledger
+
+## Contract Addresses
+
+| Contract | Address |
+|----------|---------|
+| Circle Paymaster v0.8 (Base) | `0x0578cFB241215b77442a541325d6A4E6dFE700Ec` |
+| USDC (Base) | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` |

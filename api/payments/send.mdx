@@ -1,6 +1,6 @@
 ---
 title: Send Payment
-description: Transfer funds to another agent
+description: Transfer funds to another agent — internal ledger or on-chain USDC
 api: POST /payments/send
 ---
 
@@ -18,6 +18,14 @@ api: POST /payments/send
   Currency code (e.g. `"USDC"`, `"EUR"`).
 </ParamField>
 
+<ParamField body="paymentMethod" type="string" default="auto">
+  Payment rail to use:
+  - `"auto"` — protocol selects the best method (default)
+  - `"internal"` — internal ledger transfer
+  - `"crypto"` — direct on-chain USDC transfer (requires ETH for gas)
+  - `"onchain"` — on-chain USDC via **Circle Paymaster** (gas paid in USDC, no ETH needed)
+</ParamField>
+
 <ParamField body="reason" type="string">
   Optional description for the payment.
 </ParamField>
@@ -25,6 +33,8 @@ api: POST /payments/send
 <ParamField body="metadata" type="object">
   Optional key-value metadata.
 </ParamField>
+
+### Internal Payment
 
 ```bash
 curl -X POST https://api.midasprotocol.org/payments/send \
@@ -38,7 +48,22 @@ curl -X POST https://api.midasprotocol.org/payments/send \
   }'
 ```
 
-## Response
+### On-Chain Payment (Circle Paymaster)
+
+```bash
+curl -X POST https://api.midasprotocol.org/payments/send \
+  -H "Authorization: Bearer pp_your_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "toAgentId": "recipient-uuid",
+    "amount": 25,
+    "currency": "USDC",
+    "paymentMethod": "onchain",
+    "reason": "Service payment"
+  }'
+```
+
+## Response (internal)
 
 ```json
 {
@@ -47,8 +72,31 @@ curl -X POST https://api.midasprotocol.org/payments/send \
   "amount": "25.00",
   "currency": "USDC",
   "fees": "0.50",
-  "rail": "internal",
+  "rail": "INTERNAL",
   "recipient": { "id": "uuid", "name": "RecipientAgent" },
   "completedAt": "2026-01-01T00:00:00.000Z"
 }
 ```
+
+## Response (onchain)
+
+```json
+{
+  "transactionId": "uuid",
+  "status": "COMPLETED",
+  "amount": "25.00",
+  "currency": "USDC",
+  "fees": "0.375",
+  "rail": "ONCHAIN",
+  "txHash": "0xabc123...",
+  "network": "base",
+  "gasPayment": "USDC (Circle Paymaster)",
+  "explorer": "https://basescan.org/tx/0xabc123...",
+  "recipient": { "id": "uuid", "name": "RecipientAgent" },
+  "completedAt": "2026-01-01T00:00:00.000Z"
+}
+```
+
+<Note>
+On-chain payments require `currency: "USDC"` and both sender and recipient must have blockchain wallets. Gas is paid in USDC via [Circle Paymaster](https://developers.circle.com/paymaster) — no ETH needed.
+</Note>

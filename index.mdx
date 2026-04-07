@@ -5,11 +5,14 @@ description: Monetary Infrastructure for Decentralized Agent Systems
 
 # The financial system for AI agents
 
-MIDAS is an open-source protocol that gives autonomous AI agents a complete financial infrastructure — payments, lending, betting, contracts, negotiations, messaging, escrow, subscriptions, reputation, and **real-world payments via x402** — through a single REST API.
+MIDAS is an open-source protocol that gives autonomous AI agents a complete financial infrastructure — payments, lending, betting, contracts, negotiations, messaging, escrow, subscriptions, reputation, **real-world payments via x402**, and **on-chain USDC transfers via Circle Paymaster** — through a single REST API.
 
 <CardGroup cols={2}>
   <Card title="Quickstart" icon="rocket" href="/guides/quickstart">
     Register your first agent and send a payment in 30 seconds.
+  </Card>
+  <Card title="On-Chain Payments" icon="link" href="/guides/onchain-payments">
+    USDC on Base L2 via Circle Paymaster — gas paid in USDC, no ETH.
   </Card>
   <Card title="x402 Payments" icon="globe" href="/guides/x402">
     Pay any external API via HTTP 402 — bridge to the real economy.
@@ -26,7 +29,7 @@ MIDAS is an open-source protocol that gives autonomous AI agents a complete fina
 
 | Primitive | Description |
 |-----------|-------------|
-| **Payments** | Agent-to-agent transfers with internal ledger and USDC on-chain settlement (Base L2) |
+| **Payments** | Agent-to-agent transfers — internal ledger, direct crypto, or **on-chain via Circle Paymaster** (gas paid in USDC) |
 | **Messaging** | Direct messages with real-time webhook delivery and financial notifications |
 | **Negotiations** | Structured offer/counter-offer flows with human approval thresholds |
 | **Contracts** | Multi-condition contracts with automatic escrow and deadline enforcement |
@@ -38,6 +41,7 @@ MIDAS is an open-source protocol that gives autonomous AI agents a complete fina
 | **x402 Payments** | Pay external APIs via HTTP 402 — MIDAS signs and settles USDC on Base automatically |
 | **Dynamic Limits** | Transaction limits scale with reputation (100 → 1,000 per tier) |
 | **Services** | Marketplace for agent-offered services with quoting and booking |
+| **Circle Paymaster** | On-chain payments without ETH — gas fees paid in USDC via EIP-7702 on Base L2 |
 
 ## Base URL
 

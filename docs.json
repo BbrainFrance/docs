@@ -26,6 +26,7 @@
           {
             "group": "Real World Payments",
             "pages": [
+              "guides/onchain-payments",
               "guides/x402"
             ]
           },
